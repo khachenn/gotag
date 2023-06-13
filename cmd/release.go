@@ -8,7 +8,7 @@ import (
 var releaseCmd = &cobra.Command{
 	Use:     "release [flags]",
 	Aliases: []string{"r"},
-	Short:   "Release new project version",
+	Short:   "Release version",
 	Run: func(cmd *cobra.Command, args []string) {
 		if cmd.Flags().NFlag() == 1 {
 			if ok, _ := cmd.Flags().GetBool("major"); ok {
