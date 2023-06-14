@@ -79,7 +79,7 @@ func UpdateVersion(svOption uint32) string {
 		fmt.Printf("%s Command exit err: %s \n", CloseEmoji, err)
 		os.Exit(1)
 	}
-	fmt.Printf("%s [3/5] RUN: update version from: \033[1;30m%s\033[0m to \033[1;33m%s\033[0m\n", CheckedEmoji, curVersion, newVersion)
+	fmt.Printf("%s [3/5] RUN: update version from \033[1;30m%s\033[0m to \033[1;33m%s\033[0m\n", CheckedEmoji, curVersion, newVersion)
 	promptLabel := fmt.Sprintf("New version \033[1;33m%s\033[0m choose \033[1;37mN\033[0m for exit or \033[1;37my\033[0m for run git tag", newVersion)
 	prompt := promptui.Prompt{
 		Label:     promptLabel,
@@ -93,10 +93,10 @@ func UpdateVersion(svOption uint32) string {
 	fmt.Printf("%s [4/5] RUN: git tag %s\n", CheckedEmoji, newVersion)
 	err = exec.Command("git", "tag", newVersion).Run()
 	if err != nil {
-		fmt.Printf("%s Command exit err: %s \n", CloseEmoji, err)
+		fmt.Printf("%s Command exit err: %s\n", CloseEmoji, err)
 		os.Exit(1)
 	}
-	fmt.Printf("%s [5/5] Completed version: %s\n", CheckedEmoji, newVersion)
+	fmt.Printf("%s [5/5] Completed version: \033[1;32m%s\033[0m\n", CheckedEmoji, newVersion)
 	fmt.Printf("🎉 !!!Please run command for push new tag: $ git push origin %s\n", newVersion)
 	return newVersion
 }
