@@ -93,7 +93,7 @@ func UpdateVersion(svOption uint32) string {
 		fmt.Println("\033[1;31m✗\033[0m Command exit err: ", err)
 		os.Exit(1)
 	}
-	fmt.Println("🎉 [5/5] Completed version:", newVersion)
-	fmt.Printf("⚠️ !!!Please run command for push new tag: $ git push origin %s\n", newVersion)
+	fmt.Println("\033[1;32m✔\033[0m [5/5] Completed version:", newVersion)
+	fmt.Printf("🎉 !!!Please run command for push new tag: $ git push origin %s\n", newVersion)
 	return newVersion
 }
