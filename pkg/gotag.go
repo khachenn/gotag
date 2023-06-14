@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/Masterminds/semver"
+	"github.com/manifoldco/promptui"
 )
 
 const (
@@ -73,13 +74,23 @@ func UpdateVersion(svOption uint32) string {
 	fmt.Println("[3/5] RUN: generate new version")
 	newVersion, err := Versioning(curVersion, svOption)
 	if err != nil {
-		fmt.Println("err: ", err)
+		fmt.Println("Command exit err: ", err)
+		os.Exit(1)
+	}
+	promptLabel := fmt.Sprintf("New version %s N for exit and y for run git tag", newVersion)
+	prompt := promptui.Prompt{
+		Label:     promptLabel,
+		IsConfirm: true,
+	}
+	_, err = prompt.Run()
+	if err != nil {
+		fmt.Printf("Command exit %v\n", err)
 		os.Exit(1)
 	}
 	fmt.Printf("[4/5] RUN: git tag %s\n", newVersion)
 	err = exec.Command("git", "tag", newVersion).Run()
 	if err != nil {
-		fmt.Println("err: ", err)
+		fmt.Println("Command exit err: ", err)
 		os.Exit(1)
 	}
 	fmt.Println("[5/5] Completed version:", newVersion)
