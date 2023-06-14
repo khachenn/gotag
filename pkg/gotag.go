@@ -43,7 +43,7 @@ func GetLatestVersion() string {
 	fetchTagCmd := exec.Command("git", "fetch", "--all", "--tags")
 	err := fetchTagCmd.Run()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("\033[1;31m✗\033[0m Command exit err: ", err)
 		os.Exit(1)
 	}
 	cmd := exec.Command("git", "tag", "--sort=-v:refname")
@@ -56,14 +56,14 @@ func GetLatestVersion() string {
 }
 
 func UpdateVersion(svOption uint32) string {
-	fmt.Printf("[1/5] RUN: fetch tag from repository...\n")
+	fmt.Printf("\033[1;32m✔\033[0m [1/5] RUN: fetch tag from repository...\n")
 	fetchTagCmd := exec.Command("git", "fetch", "--all", "--tags")
 	err := fetchTagCmd.Run()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("\033[1;31m✗\033[0m Command exit err: ", err)
 		os.Exit(1)
 	}
-	fmt.Printf("[2/5] RUN: get latest tag from git...\n")
+	fmt.Printf("\033[1;32m✔\033[0m [2/5] RUN: get latest tag from git...\n")
 	cmd := exec.Command("git", "tag", "--sort=-v:refname")
 	out, _ := cmd.Output()
 	tagList := strings.Split(string(out), "\n")
@@ -71,10 +71,10 @@ func UpdateVersion(svOption uint32) string {
 	if len(strings.Join(tagList, ",")) > 0 {
 		curVersion = tagList[0]
 	}
-	fmt.Println("[3/5] RUN: generate new version")
+	fmt.Println("\033[1;32m✔\033[0m [3/5] RUN: generate new version")
 	newVersion, err := Versioning(curVersion, svOption)
 	if err != nil {
-		fmt.Println("Command exit err: ", err)
+		fmt.Println("\033[1;31m✗\033[0m Command exit err: ", err)
 		os.Exit(1)
 	}
 	promptLabel := fmt.Sprintf("New version %s N for exit and y for run git tag", newVersion)
@@ -84,16 +84,16 @@ func UpdateVersion(svOption uint32) string {
 	}
 	_, err = prompt.Run()
 	if err != nil {
-		fmt.Printf("Command exit %v\n", err)
+		fmt.Printf("\033[1;31m✗\033[0m Command exit %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("[4/5] RUN: git tag %s\n", newVersion)
+	fmt.Printf("\033[1;32m✔\033[0m [4/5] RUN: git tag %s\n", newVersion)
 	err = exec.Command("git", "tag", newVersion).Run()
 	if err != nil {
-		fmt.Println("Command exit err: ", err)
+		fmt.Println("\033[1;31m✗\033[0m Command exit err: ", err)
 		os.Exit(1)
 	}
-	fmt.Println("[5/5] Completed version:", newVersion)
-	fmt.Printf("!!!Please run command for push new tag: $ git push origin %s\n", newVersion)
+	fmt.Println("🎉 [5/5] Completed version:", newVersion)
+	fmt.Printf("⚠️ !!!Please run command for push new tag: $ git push origin %s\n", newVersion)
 	return newVersion
 }

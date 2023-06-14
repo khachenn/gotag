@@ -14,7 +14,7 @@ var latestCmd = &cobra.Command{
 	Short:                 "Show latest version",
 	Run: func(cmd *cobra.Command, args []string) {
 		latestVersion := gotag.GetLatestVersion()
-		fmt.Printf("latest: %s\n", latestVersion)
+		fmt.Printf("📦 Latest: %s\n", latestVersion)
 	},
 }
 
