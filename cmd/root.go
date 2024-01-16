@@ -10,7 +10,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "gotag [command]",
 	Short:   "gotag - a simple CLI to semantic versioning",
-	Version: "v0.0.4",
+	Version: "v0.0.6",
 	Long:    `gotag is a super fancy CLI (kidding) for semantic versioning`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if cmd.Flags().NFlag() == 1 {
